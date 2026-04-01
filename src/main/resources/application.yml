@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: plan-it2
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/spring_plus
+    username: root
+    password: 12345678
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+
+# JwtUtil이 필수로 요구하는 설정값입니다.
+jwt:
+  secret:
+    key: 7Iqk7YyA66as7J207Yq47Yqc7YSw7Iuc7Y6Y7Yqc7Yq47Yqc7YSw7Iuc7Y6Y7Yqc7Yq4
