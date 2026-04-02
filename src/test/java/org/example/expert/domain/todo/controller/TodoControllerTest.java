@@ -63,15 +63,18 @@ class TodoControllerTest {
         // given
         long todoId = 1L;
 
-        // when
+        // when : 서비스가 예외를 던지도록 설정
         when(todoService.getTodo(todoId))
                 .thenThrow(new InvalidRequestException("Todo not found"));
 
         // then
         mockMvc.perform(get("/todos/{todoId}", todoId))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.status").value(HttpStatus.OK.name()))
-                .andExpect(jsonPath("$.code").value(HttpStatus.OK.value()))
-                .andExpect(jsonPath("$.message").value("Todo not found"));
+                // 1. 상태 코드 200ok x -> 404 Not Found
+                .andExpect(status().isBadRequest())
+
+                //2. 응답 바디의 상태 정보도 에러에 맞춰야 함
+                .andExpect(jsonPath("$.status").value("BAD_REQUEST")) // JSON 안에도 BAD_REQUEST
+                .andExpect(jsonPath("$.code").value(400)) // 반환코드도 통일 404
+                .andExpect(jsonPath("$.message").value("Todo not found")); // 원하는 에러 메시지도 같은지 확인
     }
 }
